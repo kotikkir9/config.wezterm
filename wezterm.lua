@@ -69,6 +69,9 @@ config.keys = {
     { key = 'p', mods = 'SHIFT|ALT', action = wez.action.ActivateTabRelative(-1) },
     { key = 'n', mods = 'SHIFT|ALT', action = wez.action.ActivateTabRelative(1) },
     { key = 't', mods = 'SHIFT|ALT', action = wez.action.SpawnTab('CurrentPaneDomain') },
+    { key = 'v', mods = 'SHIFT|ALT', action = wez.action.SplitVertical { domain = 'CurrentPaneDomain' } },
+    { key = 'h', mods = 'SHIFT|ALT', action = wez.action.SplitHorizontal { domain = 'CurrentPaneDomain' } },
+    { key = 'Space', mods = 'SHIFT|ALT', action = wez.action { ActivatePaneDirection = "Next" } },
     {
         key = 'r',
         mods = 'SHIFT|ALT',
