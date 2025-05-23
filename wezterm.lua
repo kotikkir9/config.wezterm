@@ -64,17 +64,48 @@ config.window_padding = {
     bottom = 0,
 }
 
+-- config.leader = { key = 'a', mods = 'CTRL' }
+config.leader = { key = 'Space', mods = 'CTRL' }
+
 config.keys = {
-    { key = 'd', mods = 'SHIFT|ALT', action = wez.action.CloseCurrentTab { confirm = true } },
-    { key = 'p', mods = 'SHIFT|ALT', action = wez.action.ActivateTabRelative(-1) },
-    { key = 'n', mods = 'SHIFT|ALT', action = wez.action.ActivateTabRelative(1) },
-    { key = 't', mods = 'SHIFT|ALT', action = wez.action.SpawnTab('CurrentPaneDomain') },
-    { key = 'v', mods = 'SHIFT|ALT', action = wez.action.SplitVertical { domain = 'CurrentPaneDomain' } },
-    { key = 'h', mods = 'SHIFT|ALT', action = wez.action.SplitHorizontal { domain = 'CurrentPaneDomain' } },
-    { key = 'Space', mods = 'SHIFT|ALT', action = wez.action { ActivatePaneDirection = "Next" } },
+    { key = "a",  mods = "LEADER|CTRL",  action = wez.action { SendString = "\x01" } },
+    { key = "z",  mods = "LEADER",       action = "TogglePaneZoomState" },
+
+    { key = 'c',  mods = 'LEADER',       action = wez.action.SpawnTab('CurrentPaneDomain') },
+    { key = 'n',  mods = 'LEADER',       action = wez.action.ActivateTabRelative(1) },
+    { key = 'p',  mods = 'LEADER',       action = wez.action.ActivateTabRelative(-1) },
+    { key = ']',  mods = 'LEADER',       action = wez.action.MoveTabRelative(1) },
+    { key = '[',  mods = 'LEADER',       action = wez.action.MoveTabRelative(-1) },
+
+    { key = '%',  mods = 'LEADER|SHIFT', action = wez.action.SplitVertical { domain = 'CurrentPaneDomain' } },
+    { key = '"',  mods = 'LEADER|SHIFT', action = wez.action.SplitHorizontal { domain = 'CurrentPaneDomain' } },
+    { key = '-',  mods = 'LEADER',       action = wez.action.SplitVertical { domain = 'CurrentPaneDomain' } },
+    { key = '\\', mods = 'LEADER',       action = wez.action.SplitHorizontal { domain = 'CurrentPaneDomain' } },
+    { key = '|',  mods = 'LEADER|SHIFT', action = wez.action.SplitHorizontal { domain = 'CurrentPaneDomain' } },
+
+    { key = 'o',  mods = 'LEADER',       action = wez.action { ActivatePaneDirection = "Next" } },
+    { key = "h",  mods = "LEADER",       action = wez.action { ActivatePaneDirection = "Left" } },
+    { key = "j",  mods = "LEADER",       action = wez.action { ActivatePaneDirection = "Down" } },
+    { key = "k",  mods = "LEADER",       action = wez.action { ActivatePaneDirection = "Up" } },
+    { key = "l",  mods = "LEADER",       action = wez.action { ActivatePaneDirection = "Right" } },
+
+    { key = "1",  mods = "LEADER",       action = wez.action { ActivateTab = 0 } },
+    { key = "2",  mods = "LEADER",       action = wez.action { ActivateTab = 1 } },
+    { key = "3",  mods = "LEADER",       action = wez.action { ActivateTab = 2 } },
+    { key = "4",  mods = "LEADER",       action = wez.action { ActivateTab = 3 } },
+    { key = "5",  mods = "LEADER",       action = wez.action { ActivateTab = 4 } },
+    { key = "6",  mods = "LEADER",       action = wez.action { ActivateTab = 5 } },
+    { key = "7",  mods = "LEADER",       action = wez.action { ActivateTab = 6 } },
+    { key = "8",  mods = "LEADER",       action = wez.action { ActivateTab = 7 } },
+    { key = "9",  mods = "LEADER",       action = wez.action { ActivateTab = 8 } },
+
+    { key = "&",  mods = "LEADER|SHIFT", action = wez.action { CloseCurrentTab = { confirm = true } } },
+    { key = "d",  mods = "LEADER",       action = wez.action { CloseCurrentPane = { confirm = true } } },
+    { key = "x",  mods = "LEADER",       action = wez.action { CloseCurrentPane = { confirm = true } } },
+
     {
-        key = 'r',
-        mods = 'SHIFT|ALT',
+        key = ',',
+        mods = 'LEADER',
         action = wez.action.PromptInputLine {
             description = 'Enter new name for tab',
             action = wez.action_callback(function(window, _, line)
@@ -87,8 +118,49 @@ config.keys = {
             end),
         }
     },
-    { key = 'n', mods = 'CTRL|ALT', action = wez.action.MoveTabRelative(1) },
-    { key = 'p', mods = 'CTRL|ALT', action = wez.action.MoveTabRelative(-1) },
+
+    {
+        key = "h",
+        mods = "LEADER|SHIFT",
+        action = wez.action.Multiple({
+            wez.action.AdjustPaneSize({ "Left", 5 }),
+            wez.action.ActivateKeyTable({ name = "resize_pane", one_shot = false, until_unknown = true }),
+        }),
+    },
+    {
+        key = "j",
+        mods = "LEADER|SHIFT",
+        action = wez.action.Multiple({
+            wez.action.AdjustPaneSize({ "Down", 5 }),
+            wez.action.ActivateKeyTable({ name = "resize_pane", one_shot = false, until_unknown = true }),
+        }),
+    },
+    {
+        key = "k",
+        mods = "LEADER|SHIFT",
+        action = wez.action.Multiple({
+            wez.action.AdjustPaneSize({ "Up", 5 }),
+            wez.action.ActivateKeyTable({ name = "resize_pane", one_shot = false, until_unknown = true }),
+        }),
+    },
+    {
+        key = "l",
+        mods = "LEADER|SHIFT",
+        action = wez.action.Multiple({
+            wez.action.AdjustPaneSize({ "Right", 5 }),
+            wez.action.ActivateKeyTable({ name = "resize_pane", one_shot = false, until_unknown = true }),
+        }),
+    },
+}
+
+config.key_tables = {
+    resize_pane = {
+        { key = "h",      mods = "SHIFT",                 action = wez.action.AdjustPaneSize({ "Left", 5 }) },
+        { key = "j",      mods = "SHIFT",                 action = wez.action.AdjustPaneSize({ "Down", 5 }) },
+        { key = "k",      mods = "SHIFT",                 action = wez.action.AdjustPaneSize({ "Up", 5 }) },
+        { key = "l",      mods = "SHIFT",                 action = wez.action.AdjustPaneSize({ "Right", 5 }) },
+        { key = "Escape", action = wez.action.PopKeyTable },
+    }
 }
 
 return config
