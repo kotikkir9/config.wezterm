@@ -22,7 +22,8 @@ wez.on('format-tab-title', function(tab, _, _, _, _, _)
             end
         end
     end
-    return { { Text = title }, }
+    title = tab.tab_index + 1 .. ".  " .. title
+    return { { Text = title } }
 end)
 
 wez.on('format-window-title', function(tab, _, tabs, _, _)
