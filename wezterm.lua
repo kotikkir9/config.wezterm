@@ -65,8 +65,8 @@ config.window_padding = {
     bottom = 0,
 }
 
--- config.leader = { key = 'a', mods = 'CTRL' }
-config.leader = { key = 'Space', mods = 'CTRL' }
+config.leader = { key = 'a', mods = 'CTRL' }
+-- config.leader = { key = 'Space', mods = 'CTRL' }
 
 config.keys = {
     { key = "a",  mods = "LEADER|CTRL",  action = wez.action { SendString = "\x01" } },
