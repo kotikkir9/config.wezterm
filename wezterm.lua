@@ -44,65 +44,83 @@ wez.on('format-window-title', function(tab, _, tabs, _, _)
     return index .. "wezterm"
 end)
 
+config.automatically_reload_config = true
 config.color_scheme = 'Kanagawa (Gogh)'
+
 config.colors = {
-    background = '#181818'
+    background = '#181818',
+    tab_bar = { active_tab = { fg_color = '#073642', bg_color = '#2aa198', } }
 }
+
+-- config.color_scheme = 'Solarized (dark) (terminal.sexy)'
+-- config.enable_scroll_bar = true
+-- config.enable_wayland = true
 
 -- config.font = wez.font('JetBrainsMono Nerd Font', { weight = 'Regular' })
 -- config.font = wez.font('CaskaydiaCove Nerd Font', { weight = 'Regular' })
 config.font = wez.font('ComicShannsMono Nerd Font', { weight = 'Regular' })
 config.font_size = 11
+config.adjust_window_size_when_changing_font_size = false
 
 config.hide_tab_bar_if_only_one_tab = true
 config.tab_bar_at_bottom = true
--- config.enable_tab_bar = false
+config.enable_tab_bar = true
+config.use_fancy_tab_bar = true
+config.tab_max_width = 32
+config.switch_to_last_active_tab_when_closing_tab = true
+config.use_dead_keys = false
 
-config.window_padding = {
-    left = 0,
-    right = 0,
-    top = 0,
-    bottom = 0,
+config.window_decorations = 'TITLE | RESIZE'
+config.pane_focus_follows_mouse = false
+config.scrollback_lines = 5000
+config.window_padding = { left = 0, right = 0, top = 0, bottom = 0, }
+
+config.leader = {
+    key = 'a',
+    -- key = 'Space',
+    mods = 'CTRL',
+    timeout_milliseconds = 2000,
 }
 
-config.leader = { key = 'a', mods = 'CTRL' }
--- config.leader = { key = 'Space', mods = 'CTRL' }
-
 config.keys = {
-    { key = "a",  mods = "LEADER|CTRL",  action = wez.action { SendString = "\x01" } },
-    { key = "z",  mods = "LEADER",       action = "TogglePaneZoomState" },
+    { key = "a", mods = "LEADER|CTRL",  action = wez.action { SendString = "\x01" } },
+    { key = "z", mods = "LEADER",       action = wez.action.TogglePaneZoomState },
+    { key = "w", mods = "LEADER",       action = wez.action.ShowTabNavigator },
 
-    { key = 'c',  mods = 'LEADER',       action = wez.action.SpawnTab('CurrentPaneDomain') },
-    { key = 'n',  mods = 'LEADER',       action = wez.action.ActivateTabRelative(1) },
-    { key = 'p',  mods = 'LEADER',       action = wez.action.ActivateTabRelative(-1) },
-    { key = ']',  mods = 'LEADER',       action = wez.action.MoveTabRelative(1) },
-    { key = '[',  mods = 'LEADER',       action = wez.action.MoveTabRelative(-1) },
+    { key = 'c', mods = 'LEADER',       action = wez.action.SpawnTab('CurrentPaneDomain') },
+    { key = 'n', mods = 'LEADER',       action = wez.action.ActivateTabRelative(1) },
+    { key = 'p', mods = 'LEADER',       action = wez.action.ActivateTabRelative(-1) },
 
-    { key = '%',  mods = 'LEADER|SHIFT', action = wez.action.SplitVertical { domain = 'CurrentPaneDomain' } },
-    { key = '"',  mods = 'LEADER|SHIFT', action = wez.action.SplitHorizontal { domain = 'CurrentPaneDomain' } },
-    { key = '-',  mods = 'LEADER',       action = wez.action.SplitVertical { domain = 'CurrentPaneDomain' } },
-    { key = '\\', mods = 'LEADER',       action = wez.action.SplitHorizontal { domain = 'CurrentPaneDomain' } },
-    { key = '|',  mods = 'LEADER|SHIFT', action = wez.action.SplitHorizontal { domain = 'CurrentPaneDomain' } },
+    -- { key = '[',  mods = 'LEADER',       action = wez.action.ActivateCopyMode, },
+    { key = ']', mods = 'LEADER',       action = wez.action.MoveTabRelative(1) },
+    { key = '[', mods = 'LEADER',       action = wez.action.MoveTabRelative(-1) },
 
-    { key = 'o',  mods = 'LEADER',       action = wez.action { ActivatePaneDirection = "Next" } },
-    { key = "h",  mods = "LEADER",       action = wez.action { ActivatePaneDirection = "Left" } },
-    { key = "j",  mods = "LEADER",       action = wez.action { ActivatePaneDirection = "Down" } },
-    { key = "k",  mods = "LEADER",       action = wez.action { ActivatePaneDirection = "Up" } },
-    { key = "l",  mods = "LEADER",       action = wez.action { ActivatePaneDirection = "Right" } },
+    { key = '%', mods = 'LEADER|SHIFT', action = wez.action.SplitVertical { domain = 'CurrentPaneDomain' } },
+    { key = '"', mods = 'LEADER|SHIFT', action = wez.action.SplitHorizontal { domain = 'CurrentPaneDomain' } },
+    { key = '-', mods = 'LEADER',       action = wez.action.SplitVertical { domain = 'CurrentPaneDomain' } },
+    { key = '|', mods = 'LEADER|SHIFT', action = wez.action.SplitHorizontal { domain = 'CurrentPaneDomain' } },
 
-    { key = "1",  mods = "LEADER",       action = wez.action { ActivateTab = 0 } },
-    { key = "2",  mods = "LEADER",       action = wez.action { ActivateTab = 1 } },
-    { key = "3",  mods = "LEADER",       action = wez.action { ActivateTab = 2 } },
-    { key = "4",  mods = "LEADER",       action = wez.action { ActivateTab = 3 } },
-    { key = "5",  mods = "LEADER",       action = wez.action { ActivateTab = 4 } },
-    { key = "6",  mods = "LEADER",       action = wez.action { ActivateTab = 5 } },
-    { key = "7",  mods = "LEADER",       action = wez.action { ActivateTab = 6 } },
-    { key = "8",  mods = "LEADER",       action = wez.action { ActivateTab = 7 } },
-    { key = "9",  mods = "LEADER",       action = wez.action { ActivateTab = 8 } },
+    { key = '{', mods = 'LEADER|SHIFT', action = wez.action.PaneSelect { mode = 'SwapWithActiveKeepFocus' } },
 
-    { key = "&",  mods = "LEADER|SHIFT", action = wez.action { CloseCurrentTab = { confirm = true } } },
-    { key = "d",  mods = "LEADER",       action = wez.action { CloseCurrentPane = { confirm = true } } },
-    { key = "x",  mods = "LEADER",       action = wez.action { CloseCurrentPane = { confirm = true } } },
+    { key = 'o', mods = 'LEADER',       action = wez.action { ActivatePaneDirection = "Next" } },
+    { key = "h", mods = "LEADER",       action = wez.action { ActivatePaneDirection = "Left" } },
+    { key = "j", mods = "LEADER",       action = wez.action { ActivatePaneDirection = "Down" } },
+    { key = "k", mods = "LEADER",       action = wez.action { ActivatePaneDirection = "Up" } },
+    { key = "l", mods = "LEADER",       action = wez.action { ActivatePaneDirection = "Right" } },
+
+    { key = "1", mods = "LEADER",       action = wez.action { ActivateTab = 0 } },
+    { key = "2", mods = "LEADER",       action = wez.action { ActivateTab = 1 } },
+    { key = "3", mods = "LEADER",       action = wez.action { ActivateTab = 2 } },
+    { key = "4", mods = "LEADER",       action = wez.action { ActivateTab = 3 } },
+    { key = "5", mods = "LEADER",       action = wez.action { ActivateTab = 4 } },
+    { key = "6", mods = "LEADER",       action = wez.action { ActivateTab = 5 } },
+    { key = "7", mods = "LEADER",       action = wez.action { ActivateTab = 6 } },
+    { key = "8", mods = "LEADER",       action = wez.action { ActivateTab = 7 } },
+    { key = "9", mods = "LEADER",       action = wez.action { ActivateTab = 8 } },
+
+    { key = "&", mods = "LEADER|SHIFT", action = wez.action { CloseCurrentTab = { confirm = true } } },
+    { key = "d", mods = "LEADER",       action = wez.action { CloseCurrentPane = { confirm = true } } },
+    { key = "x", mods = "LEADER",       action = wez.action { CloseCurrentPane = { confirm = true } } },
 
     {
         key = ',',
