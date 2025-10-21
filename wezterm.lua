@@ -49,7 +49,7 @@ config.color_scheme = 'Kanagawa (Gogh)'
 
 config.colors = {
     background = '#181818',
-    tab_bar = { active_tab = { fg_color = '#073642', bg_color = '#2aa198', } }
+    tab_bar = { active_tab = { fg_color = '#073642', bg_color = '#f2ae38', } }
 }
 
 -- config.color_scheme = 'Solarized (dark) (terminal.sexy)'
@@ -83,11 +83,25 @@ config.leader = {
 }
 
 config.keys = {
-    { key = "a", mods = "LEADER|CTRL",  action = wez.action { SendString = "\x01" } },
-    { key = "z", mods = "LEADER",       action = wez.action.TogglePaneZoomState },
-    { key = "w", mods = "LEADER",       action = wez.action.ShowTabNavigator },
+    { key = "a", mods = "LEADER|CTRL", action = wez.action { SendString = "\x01" } },
+    { key = "z", mods = "LEADER",      action = wez.action.TogglePaneZoomState },
+    { key = "w", mods = "LEADER",      action = wez.action.ShowTabNavigator },
 
-    { key = 'c', mods = 'LEADER',       action = wez.action.SpawnTab('CurrentPaneDomain') },
+    { key = 'c', mods = 'LEADER',      action = wez.action.SpawnTab('CurrentPaneDomain') },
+    { key = 't', mods = 'LEADER',      action = wez.action.SpawnCommandInNewTab({ args = { "wsl.exe" } }) },
+
+    -- {
+    --     key = 't',
+    --     mods = 'LEADER',
+    --     action = wez.action_callback(function(_, _)
+    --         if wez.target_triple == 'x86_64-pc-windows-msvc' then
+    --             wez.action.SpawnCommandInNewTab({ args = { "wsl.exe" } })
+    --         else
+    --             wez.action.SpawnTab('CurrentPaneDomain')
+    --         end
+    --     end)
+    -- },
+
     { key = 'n', mods = 'LEADER',       action = wez.action.ActivateTabRelative(1) },
     { key = 'p', mods = 'LEADER',       action = wez.action.ActivateTabRelative(-1) },
 
