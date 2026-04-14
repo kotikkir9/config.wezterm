@@ -76,8 +76,8 @@ config.scrollback_lines = 5000
 config.window_padding = { left = 0, right = 0, top = 0, bottom = 0, }
 
 config.leader = {
-    key = 'a',
-    -- key = 'Space',
+    -- key = 'a',
+    key = 'Space',
     mods = 'CTRL',
     timeout_milliseconds = 2000,
 }
