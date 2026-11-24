@@ -4,7 +4,9 @@ local config = wez.config_builder()
 -- OSC 7 on Windows with powershell
 -- https://wezterm.org/shell-integration.html#osc-7-on-windows-with-cmdexe
 
-if wez.target_triple == 'x86_64-pc-windows-msvc' then
+local is_windows = wez.target_triple:find('windows')
+
+if is_windows then
     config.default_prog = { "pwsh.exe", "-NoLogo" }
 end
 
@@ -49,7 +51,7 @@ config.color_scheme = 'Kanagawa (Gogh)'
 
 config.colors = {
     background = '#181818',
-    tab_bar = { active_tab = { fg_color = '#073642', bg_color = '#f2ae38', } }
+    tab_bar = { active_tab = { fg_color = '#073642', bg_color = '#70c8fa', } }
 }
 
 -- config.color_scheme = 'Solarized (dark) (terminal.sexy)'
@@ -76,31 +78,18 @@ config.scrollback_lines = 5000
 config.window_padding = { left = 0, right = 0, top = 0, bottom = 0, }
 
 config.leader = {
-    -- key = 'a',
     key = 'Space',
     mods = 'CTRL',
     timeout_milliseconds = 2000,
 }
 
 config.keys = {
-    { key = "a", mods = "LEADER|CTRL", action = wez.action { SendString = "\x01" } },
-    { key = "z", mods = "LEADER",      action = wez.action.TogglePaneZoomState },
-    { key = "w", mods = "LEADER",      action = wez.action.ShowTabNavigator },
+    { key = "a", mods = "LEADER|CTRL",  action = wez.action { SendString = "\x01" } },
+    { key = "z", mods = "LEADER",       action = wez.action.TogglePaneZoomState },
+    { key = "w", mods = "LEADER",       action = wez.action.ShowTabNavigator },
 
-    { key = 'c', mods = 'LEADER',      action = wez.action.SpawnTab('CurrentPaneDomain') },
-    { key = 't', mods = 'LEADER',      action = wez.action.SpawnCommandInNewTab({ args = { "wsl.exe" } }) },
-
-    -- {
-    --     key = 't',
-    --     mods = 'LEADER',
-    --     action = wez.action_callback(function(_, _)
-    --         if wez.target_triple == 'x86_64-pc-windows-msvc' then
-    --             wez.action.SpawnCommandInNewTab({ args = { "wsl.exe" } })
-    --         else
-    --             wez.action.SpawnTab('CurrentPaneDomain')
-    --         end
-    --     end)
-    -- },
+    { key = 'c', mods = 'LEADER',       action = wez.action.SpawnTab('CurrentPaneDomain') },
+    { key = 'C', mods = 'LEADER|SHIFT', action = wez.action.SpawnTab('DefaultDomain') },
 
     { key = 'n', mods = 'LEADER',       action = wez.action.ActivateTabRelative(1) },
     { key = 'p', mods = 'LEADER',       action = wez.action.ActivateTabRelative(-1) },
@@ -195,5 +184,10 @@ config.key_tables = {
         { key = "Escape", action = wez.action.PopKeyTable },
     }
 }
+
+if is_windows then
+    local spawn_local = wez.action.SpawnTab { DomainName = 'WSL:Debian' }
+    table.insert(config.keys, { key = "D", mods = "LEADER|SHIFT", action = spawn_local })
+end
 
 return config
